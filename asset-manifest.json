@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/Luna_Lu_yumemi-kadai/static/css/main.073c9b0a.css",
-    "main.js": "/Luna_Lu_yumemi-kadai/static/js/main.d821e0ba.js",
+    "main.css": "/Luna_Lu_yumemi-kadai/static/css/main.e6c13ad2.css",
+    "main.js": "/Luna_Lu_yumemi-kadai/static/js/main.ed2c147a.js",
     "static/js/787.3cb650c9.chunk.js": "/Luna_Lu_yumemi-kadai/static/js/787.3cb650c9.chunk.js",
-    "static/media/logo.svg": "/Luna_Lu_yumemi-kadai/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/Luna_Lu_yumemi-kadai/index.html",
-    "main.073c9b0a.css.map": "/Luna_Lu_yumemi-kadai/static/css/main.073c9b0a.css.map",
-    "main.d821e0ba.js.map": "/Luna_Lu_yumemi-kadai/static/js/main.d821e0ba.js.map",
+    "main.e6c13ad2.css.map": "/Luna_Lu_yumemi-kadai/static/css/main.e6c13ad2.css.map",
+    "main.ed2c147a.js.map": "/Luna_Lu_yumemi-kadai/static/js/main.ed2c147a.js.map",
     "787.3cb650c9.chunk.js.map": "/Luna_Lu_yumemi-kadai/static/js/787.3cb650c9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.d821e0ba.js"
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.ed2c147a.js"
   ]
 }
