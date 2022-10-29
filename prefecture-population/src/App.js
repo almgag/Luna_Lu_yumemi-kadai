@@ -11,6 +11,7 @@ class App extends Component {
       prefectures: {},
       series: [],
     };
+    this.onSelectClicked = this.onSelectClicked.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +43,15 @@ class App extends Component {
     );
   }
 
+  onSelectClicked(prefcode) {
+    const cp = this.state.selected.slice();
+    cp[prefcode] = !cp[prefcode];
+    this.setState(
+      {
+        selected: cp
+      }
+    );
+ }
 
   render() {
     const obj = this.state.prefectures;
@@ -65,7 +75,7 @@ class App extends Component {
     return (
       <div>
         <h1 align="center">都道府県別の総人口推移グラフ</h1>
-        {Object.keys(obj).map(i=>this.prefCheckBox(obj[i]))}
+        {Object.keys(obj).map(i => this.prefCheckBox(obj[i]))}
       </div>
     );
   }
