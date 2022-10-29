@@ -12,14 +12,16 @@ class App extends Component {
       series: [],
     };
     this.onSelectClicked = this.onSelectClicked.bind(this);
+    this.endpoint = 'https://opendata.resas-portal.go.jp/';
   }
 
   componentDidMount() {
     // .envにREACT_APP_API_KEY="YOUR API KEY"と記述
     const apiKey = process.env.REACT_APP_API_KEY;
+    const pref_url = this.endpoint + RESAL_API.pref_api;
     //47都道府県一覧を取得
     fetch(
-      RESAL_API.pref_url,
+      pref_url,
       {
         headers: { 'X-API-KEY': apiKey }
       }
@@ -36,29 +38,70 @@ class App extends Component {
    */
   prefCheckBox(elem) {
     return (
-      <div key={elem.prefCode} style={{ margin: '10px' ,display: 'inline-block' }}>
+      <div key={elem.prefCode} style={{ margin: '3px' ,display: 'inline-block' }}>
         <input type="checkbox" checked={this.state.selected[elem.prefCode - 1]} onChange={() => this.onSelectClicked(elem.prefCode - 1)}/>
         {elem.prefName}
       </div>
     );
   }
 
+  /**
+   * チェックボックスがクリックされたときのイベント
+   */
   onSelectClicked(prefcode) {
-    const cp = this.state.selected.slice();
-    cp[prefcode] = !cp[prefcode];
-    this.setState(
-      {
-        selected: cp
+    // クリックされたチェックボックスの値だけ反転させたものに更新
+    const cp_sel = this.state.selected.slice();
+    cp_sel[prefcode] = !cp_sel[prefcode];
+    if (this.state.selected[prefcode]) { 
+      // チェックが外れたら描画をやめるので、リストから除外
+      const cp_series = this.state.series.slice();
+      const cp_series_len = cp_series.length;
+      for (let i = 0; i < cp_series_len; i++){
+        if (cp_series[i].name === this.state.prefectures[prefcode].prefName) {
+          cp_series.splice(i, 1);
+        }
       }
-    );
- }
+      // チェック後の値でチェックボックスと描画を更新
+      this.setState(
+        {
+          selected: cp_sel,
+          series: cp_series
+        }
+      );
+    }
+    else {
+      // クリックされた都道府県の人口情報を取得
+      const apiKey = process.env.REACT_APP_API_KEY;
+      const prefCode_url = this.endpoint + RESAL_API.prefcode_api;
+      fetch(
+        prefCode_url + (prefcode + 1),
+        { headers: { 'X-API-KEY': apiKey } }
+      )
+        .then(response => response.json())
+        .then(res => {
+          let newdata = [];
+          Object.keys(res.result.line.data).forEach(i => {
+            newdata.push(res.result.line.data[i].value);
+          });
+          // 描画対象を追加
+          const add = {
+            name: this.state.prefectures[prefcode].prefName,
+            data: newdata
+          };
+          this.setState({
+            selected: cp_sel,
+            series: [...this.state.series, add]
+          });
+        });
+    }
+  }
 
   render() {
     const obj = this.state.prefectures;
-    // x軸、y軸にラベルをつける
+    // タイトルと、x軸・y軸にラベルをつける
     const options = {
       title: {
-        text: 'test'
+        text: '都道府県別の総人口推移グラフ'
       },
       yAxis: {
          labels: {
@@ -76,6 +119,7 @@ class App extends Component {
       <div>
         <h1 align="center">都道府県別の総人口推移グラフ</h1>
         {Object.keys(obj).map(i => this.prefCheckBox(obj[i]))}
+        <HighchartsReact highcharts={Highcharts} options={options}></HighchartsReact>
       </div>
     );
   }
