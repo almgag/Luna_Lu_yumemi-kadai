@@ -81,8 +81,8 @@ class App extends Component {
         .then(response => response.json())
         .then(res => {
           let newdata = [];
-          Object.keys(res.result.line.data).forEach(i => {
-            newdata.push(res.result.line.data[i].value);
+          Object.keys(res.result.data[0].data).forEach(i => {
+            newdata.push(res.result.data[0].data[i].value);
           });
           // 描画対象を追加
           const add = {
