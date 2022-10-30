@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // .envにREACT_APP_API_KEY="YOUR API KEY"と記述
+    // .envからAPIキーを読み込んでいる部分を直す
     const apiKey = process.env.REACT_APP_API_KEY;
     const pref_url = this.endpoint + RESAL_API.pref_api;
     //47都道府県一覧を取得
@@ -59,6 +59,7 @@ class App extends Component {
       for (let i = 0; i < cp_series_len; i++){
         if (cp_series[i].name === this.state.prefectures[prefcode].prefName) {
           cp_series.splice(i, 1);
+          break;
         }
       }
       // チェック後の値でチェックボックスと描画を更新
